@@ -1,15 +1,17 @@
-//Book COnstructor
-function Book(title, author, isbn) {
-  this.title = title;
-  this.author = author;
-  this.isbn = isbn;
-}
+// //Book COnstructor
+// function Book(title, author, isbn) {
+//   this.title = title;
+//   this.author = author;
+//   this.isbn = isbn;
+// }
 
-//UI Constructor
-function UI() {}
+// //UI Constructor
+// function UI() {}
 
 // Event Listeners
-document.getElementById("book-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  console.log("test");
-});
+// document.getElementById("book-form").addEventListener("submit", function (e) {
+//   e.preventDefault();
+//   console.log("test");
+// });
+
+console.log("hello");
