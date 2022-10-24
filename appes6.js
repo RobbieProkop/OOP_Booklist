@@ -53,6 +53,26 @@ class UI {
   }
 }
 
+//Local Storage Class
+class Store {
+  static getBooks() {
+    let books = [];
+    if (localStorage.getItem("books") !== null) {
+      books.push(JSON.parse(localStorage.getItem("books")));
+    }
+
+    return books;
+  }
+
+  static displayBooks() {}
+
+  static addBook() {
+    getBooks();
+  }
+
+  static removeBook() {}
+}
+
 // Event Listener for add book
 document.getElementById("book-form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -76,6 +96,9 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 
   //add book to list
   ui.addBookToList(book);
+
+  //Add to local storage
+  Store.addBook(book);
 
   ui.showAlert("Book Added", "success");
 
