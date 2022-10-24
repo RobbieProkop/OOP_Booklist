@@ -12,6 +12,7 @@ class UI {
 
     //create tr element
     const row = document.createElement("tr");
+    console.log("book info", book);
     //insert columns
     row.innerHTML = `
     <td>${book.title}</td>
@@ -56,22 +57,51 @@ class UI {
 //Local Storage Class
 class Store {
   static getBooks() {
-    let books = [];
+    let books;
+    if (localStorage.getItem("books") === null) {
+      books = [];
+    }
     if (localStorage.getItem("books") !== null) {
-      books.push(JSON.parse(localStorage.getItem("books")));
+      books = JSON.parse(localStorage.getItem("books"));
     }
 
     return books;
   }
 
-  static displayBooks() {}
+  static displayBooks() {
+    const books = Store.getBooks();
 
-  static addBook() {
-    getBooks();
+    books.forEach((book) => {
+      const ui = new UI();
+
+      //add book to ui
+      ui.addBookToList(book);
+    });
   }
 
-  static removeBook() {}
+  static addBook(book) {
+    const books = Store.getBooks();
+
+    books.push(book);
+
+    localStorage.setItem("books", JSON.stringify(books));
+  }
+
+  static removeBook(isbn) {
+    const books = Store.getBooks();
+
+    books.forEach((book, i) => {
+      if (book.isbn === isbn) {
+        books.splice(i, 1);
+      }
+    });
+
+    localStorage.setItem("books", JSON.stringify(books));
+  }
 }
+
+//dom load event
+document.addEventListener("DOMContentLoaded", Store.displayBooks);
 
 // Event Listener for add book
 document.getElementById("book-form").addEventListener("submit", (e) => {
@@ -113,6 +143,9 @@ document.getElementById("book-list").addEventListener("click", (e) => {
   //instantiate UI
   const ui = new UI();
   ui.deleteBook(e.target);
+
+  //remove fro mLS
+  Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
   //show alert
   ui.showAlert("Book Deleted", "success");
